@@ -1,0 +1,76 @@
+/* ---------- plan drawing (shared with thumbnails) ---------- */
+.fp * { vector-effect: non-scaling-stroke; }
+.fp .b { fill: var(--furn); stroke: var(--ink); stroke-width: 1.1px; }
+.fp .u { fill: var(--furn-2); stroke: var(--ink); stroke-width: .8px; }
+.fp .l { fill: none; stroke: var(--ink); stroke-width: .7px; }
+.fp .d { fill: none; stroke: var(--ink-2); stroke-width: .7px; stroke-dasharray: 4 3; }
+.fp .k { fill: var(--ink); stroke: none; }
+.fp .rug { fill: var(--rug); stroke: var(--ink-2); stroke-width: .8px; }
+.fp .curtain { fill: none; stroke: var(--ink-2); stroke-width: .9px; }
+.fp .tx { fill: var(--ink-2); font-family: var(--f-mono); font-weight: 500; }
+.fp .hit { fill: transparent; stroke: none; }
+
+#plan .zone { fill: var(--floor); }
+#plan .zone.out { fill: var(--balcony); }
+#plan .tiles { fill: url(#tiles); }
+#plan .tl { fill: none; stroke: var(--grid-major); stroke-width: .006; vector-effect: none; }
+#plan .gmin { stroke: var(--grid); stroke-width: 1px; }
+#plan .gmaj { stroke: var(--grid-major); stroke-width: 1px; }
+#plan .wstroke { fill: none; stroke: var(--ink); stroke-width: 2.6px; stroke-linejoin: miter; }
+#plan .wfill { fill: var(--sheet); stroke: none; }
+#plan .whatch { fill: url(#hatch); stroke: none; }
+#plan .hl { stroke: var(--ink-2); stroke-width: .006; vector-effect: none; }
+#plan .glass { fill: var(--sheet); stroke: var(--ink); stroke-width: 1px; }
+#plan .glassline { fill: none; stroke: var(--ink); stroke-width: .8px; }
+#plan .railc { fill: var(--furn-2); stroke: var(--ink); stroke-width: .9px; }
+#plan .conc { fill: url(#concrete); stroke: var(--ink); stroke-width: 1.4px; }
+#plan .cdot { fill: var(--ink-2); }
+#plan .shaft { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.4px; }
+#plan .leaf { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.1px; }
+#plan .arc { fill: none; stroke: var(--ink); stroke-width: .8px; }
+#plan .swing { fill: transparent; stroke: none; }
+#plan .swing.bad { fill: var(--warn-soft); }
+#plan .arc.bad { stroke: var(--warn); stroke-width: 1.4px; }
+#plan .whit { cursor: move; }
+#plan .whit path { fill: transparent; stroke: none; }
+#plan .whit line, #plan .whit .wcl { stroke: transparent; stroke-width: 14px; fill: none; }
+#plan .dim { stroke: var(--ink-2); stroke-width: .8px; fill: none; }
+#plan .dtick { stroke: var(--ink); stroke-width: 1.4px; }
+#plan .dtx { fill: var(--ink-2); font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+#plan .rbadge { fill: var(--ink); }
+#plan .rnum { fill: var(--sheet); font-family: var(--f-mono); font-weight: 600; }
+#plan .rlabel { fill: var(--ink); font-family: var(--f-display); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+#plan .rsub { fill: var(--ink-2); font-family: var(--f-mono); }
+#plan .rtag { cursor: move; }
+#plan .rtaghit { fill: transparent; }
+#plan .halo { paint-order: stroke; stroke: var(--sheet); stroke-width: 3px; stroke-linejoin: round; }
+#plan .ilabel { fill: var(--ink); font-family: var(--f-display); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+#plan #items { filter: url(#shadow); }
+#plan .item { cursor: grab; }
+#plan .item.locked { cursor: pointer; }
+#plan .item.sel .b, #plan .item.sel .u, #plan .item.sel .rug, #plan .item.sel .l, #plan .item.sel .d, #plan .item.sel .curtain { stroke: var(--accent); }
+#plan .badfill { fill: url(#warnHatch); stroke: var(--warn); stroke-width: 1.6px; }
+#plan .wh { stroke: var(--warn); stroke-width: .012; vector-effect: none; }
+#plan .shd { flood-color: var(--shadow); }
+
+#plan #overlay { pointer-events: none; }
+#plan .tfbox { fill: none; stroke: var(--accent); stroke-width: 1px; }
+#plan .tfguide { stroke: var(--accent); stroke-width: 1px; stroke-dasharray: 3 3; }
+#plan .tftip { fill: var(--ink); }
+#plan .tftiptx { fill: var(--sheet); font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+#plan .selwall { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.6px; }
+#plan .selroom { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4px; stroke-dasharray: 6 4; }
+#plan .draftw { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.2px; stroke-dasharray: 4 3; }
+#plan .handle { fill: var(--sheet); stroke: var(--accent); stroke-width: 1.6px; pointer-events: all; cursor: grab; }
+#plan .handle.start { fill: var(--accent); }
+#plan .handle-hit { fill: transparent; stroke: none; pointer-events: all; cursor: grab; }
+#plan .snapmk { fill: none; stroke: var(--accent); stroke-width: 1.6px; }
+#plan .cl { stroke: var(--accent); stroke-width: 1px; fill: none; }
+#plan .cltick { stroke: var(--accent); stroke-width: 1.6px; }
+#plan .cltx { fill: var(--accent); font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+#plan .dimedit { pointer-events: all; cursor: text; }
+#plan .pill { fill: var(--sheet); stroke: var(--accent); stroke-width: 1px; }
+#plan .dimedit:hover .pill { fill: var(--accent-soft); }
+#plan .drafttx { fill: var(--accent); font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+#plan .meas { stroke: var(--warn); stroke-width: 1.4px; }
+#plan .meastx { fill: var(--warn); font-family: var(--f-mono); font-weight: 500; }

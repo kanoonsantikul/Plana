@@ -1,0 +1,9 @@
+/* ---------- panels ---------- */
+.panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; min-height: 0; min-width: 0; overflow: auto; }
+.panel h3 {
+  margin: 0;
+  font: 600 13px/1 var(--f-display);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2);
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+}
+.panel h3 .n { font: 400 11px/1 var(--f-mono); letter-spacing: 0; text-transform: none; color: var(--ink-3); }

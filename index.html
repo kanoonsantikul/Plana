@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plana Room Planner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="src/styles/main.css">
+<script type="module" src="src/main.js"></script>
+</head>
+<body>
+<div class="app">
+  <header class="bar">
+    <div class="brand">
+      <span class="mark">Plana</span>
+      <span class="sub" id="planSub"></span>
+    </div>
+    <div class="tools">
+      <div class="group" role="group" aria-label="Tool">
+        <button class="btn" id="toolSelect" data-icon="select" aria-pressed="true" title="Select and move (V)"><span class="t">Select</span></button>
+        <button class="btn" id="toolWall" data-icon="wall" aria-pressed="false" title="Draw walls (W)"><span class="t">Wall</span></button>
+        <button class="btn" id="toolRoom" data-icon="room" aria-pressed="false" title="Draw a room area (A)"><span class="t">Room</span></button>
+        <button class="btn" id="toolMeasure" data-icon="ruler" aria-pressed="false" title="Measure distance (M)"><span class="t">Measure</span></button>
+      </div>
+      <div class="group" role="group" aria-label="History">
+        <button class="btn" id="undo" data-icon="undo" title="Undo (Ctrl+Z)" aria-label="Undo"></button>
+        <button class="btn" id="redo" data-icon="redo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo"></button>
+      </div>
+      <div class="group" role="group" aria-label="Dimension units">
+        <button class="btn ub" id="uM" aria-pressed="true" title="Dimensions in metres">m</button>
+        <button class="btn ub" id="uCM" aria-pressed="false" title="Dimensions in centimetres">cm</button>
+        <button class="btn ub" id="uMM" aria-pressed="false" title="Dimensions in millimetres">mm</button>
+      </div>
+      <div class="group" role="group" aria-label="View">
+        <button class="btn" id="tGrid" data-icon="grid" aria-pressed="true" title="Grid (G)"><span class="t">Grid</span></button>
+        <button class="btn" id="tSnap" data-icon="magnet" aria-pressed="true" title="Snapping (S)"><span class="t">Snap</span></button>
+        <button class="btn" id="tDims" data-icon="dims" aria-pressed="true" title="Dimension strings (D)"><span class="t">Dimensions</span></button>
+        <button class="btn" id="tLabels" data-icon="tag" aria-pressed="false" title="Room names and furniture labels (L)"><span class="t">Labels</span></button>
+      </div>
+      <div class="group themebox" role="group" aria-label="Theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18c1.1 0 1.6-.8 1.6-1.6 0-1.3-1.1-1.6-1.1-2.7 0-.9.7-1.6 1.6-1.6H16a5 5 0 005-5C21 6.4 17 3 12 3z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10" cy="7" r="1.2"/><circle cx="15" cy="7.2" r="1.2"/></svg>
+        <select class="tsel" id="themeSel" aria-label="Theme" title="Theme">
+          <option value="auto">Auto</option>
+          <option value="original">Original white</option>
+          <option value="drafting">Drafting</option>
+          <option value="blueprint">Blueprint</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+      <div class="group" role="group" aria-label="Zoom">
+        <button class="btn" id="zOut" data-icon="zoomout" title="Zoom out (−)" aria-label="Zoom out"></button>
+        <button class="btn" id="zFit" data-icon="fit" title="Fit plan (0)" aria-label="Fit plan"></button>
+        <button class="btn" id="zIn" data-icon="zoomin" title="Zoom in (+)" aria-label="Zoom in"></button>
+      </div>
+      <div class="group" role="group" aria-label="Layout">
+        <button class="btn" id="bExport" data-icon="export" title="Export as PNG, JPG or JSON"><span class="t">Export</span></button>
+        <button class="btn" id="bImport" data-icon="import" title="Import a plan"><span class="t">Import</span></button>
+        <button class="btn" id="bNew" data-icon="newplan" title="Start a blank plan"><span class="t">Blank</span></button>
+        <button class="btn" id="bReset" data-icon="reset" title="Restore the original unit and furniture"><span class="t">Reset</span></button>
+      </div>
+    </div>
+  </header>
+
+  <aside class="panel lib" aria-label="Furniture library">
+    <div class="lib-head">
+      <h3>Furniture library <span class="n" id="libCount"></span></h3>
+      <p>Drag a piece onto the plan, or tap to drop it in the middle.</p>
+      <input class="search" id="libSearch" type="search" placeholder="Search sofa, bed, desk…" aria-label="Search furniture">
+    </div>
+    <div class="cats" id="lib"></div>
+  </aside>
+
+  <main class="stage" id="stage">
+    <svg id="plan" class="fp" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-label="Floor plan">
+      <defs>
+        <pattern id="hatch" patternUnits="userSpaceOnUse" width="0.045" height="0.045" patternTransform="rotate(45)">
+          <line class="hl" x1="0" y1="0" x2="0" y2="0.045"/>
+        </pattern>
+        <pattern id="warnHatch" patternUnits="userSpaceOnUse" width="0.06" height="0.06" patternTransform="rotate(-45)">
+          <line class="wh" x1="0" y1="0" x2="0" y2="0.06"/>
+        </pattern>
+        <pattern id="tiles" patternUnits="userSpaceOnUse" width="0.3" height="0.3">
+          <path class="tl" d="M0.3 0 L0 0 L0 0.3"/>
+        </pattern>
+        <pattern id="concrete" patternUnits="userSpaceOnUse" width="0.3" height="0.3">
+          <circle class="cdot" cx="0.04" cy="0.05" r="0.008"/><circle class="cdot" cx="0.17" cy="0.03" r="0.011"/>
+          <circle class="cdot" cx="0.25" cy="0.12" r="0.007"/><circle class="cdot" cx="0.09" cy="0.16" r="0.012"/>
+          <circle class="cdot" cx="0.21" cy="0.24" r="0.009"/><circle class="cdot" cx="0.03" cy="0.26" r="0.007"/>
+          <path class="cdot" d="M0.13 0.09l0.025 0.01-0.02 0.02z M0.26 0.2l0.02 0.02-0.028 0.004z M0.06 0.21l0.018-0.022 0.01 0.02z"/>
+        </pattern>
+        <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+          <feDropShadow class="shd" dx="0.025" dy="0.035" stdDeviation="0.025"/>
+        </filter>
+      </defs>
+      <g id="zones"></g>
+      <g id="floorItems"></g>
+      <g id="grid"></g>
+      <g id="walls"></g>
+      <g id="doors"></g>
+      <g id="wallHits"></g>
+      <g id="items"></g>
+      <g id="roomLabels"></g>
+      <g id="itemLabels" pointer-events="none"></g>
+      <g id="dims" pointer-events="none"></g>
+      <g id="overlay"></g>
+    </svg>
+    <p class="hint" id="hint">W draws walls · click a wall, then drag its round end handles · click a blue dimension to type an exact length</p>
+    <input class="dimin" id="dimIn" hidden inputmode="decimal" aria-label="Exact dimension">
+    <span class="dimunit" id="dimUnit" hidden></span>
+    <div class="scalebar" aria-hidden="true"><div class="sb-bar" id="sbBar"></div><span id="sbTxt">1 m</span></div>
+    <div class="tblock" aria-label="Plan summary">
+      <div class="tb-t">Furniture layout plan</div>
+      <div class="tb-r">
+        <div><span>Scale</span><b id="tbScale">1:50</b></div>
+        <div><span>Walls</span><b id="tbWalls">0</b></div>
+        <div><span>Items</span><b id="tbItems">0</b></div>
+        <div><span>Clashes</span><b id="tbIssues">0</b></div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="panel side" id="side" aria-label="Inspector"></aside>
+</div>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="mbox">
+    <h2 id="mTitle">Export plan</h2>
+    <div class="fmts" id="mFormats" role="group" aria-label="Export format">
+      <button class="fmt" data-fmt="png" aria-pressed="true">PNG image</button>
+      <button class="fmt" data-fmt="jpg" aria-pressed="false">JPG image</button>
+      <button class="fmt" data-fmt="json" aria-pressed="false">JSON data</button>
+    </div>
+    <p id="mText"></p>
+    <div class="mimage" id="mImage">
+      <div class="mprev"><img id="mPrev" alt="Preview of the exported plan"></div>
+      <div class="mopts">
+        <label class="field"><span>Size</span>
+          <select class="num" id="mSize">
+            <option value="1600">Standard · 1600 px</option>
+            <option value="3200" selected>Large · 3200 px</option>
+            <option value="4800">Print · 4800 px</option>
+          </select>
+        </label>
+        <label class="field"><span>Colours</span>
+          <select class="num" id="mColours">
+            <option value="theme">Current theme</option>
+            <option value="print">White, for printing</option>
+          </select>
+        </label>
+        <div class="mchecks">
+          <label class="check"><input type="checkbox" id="mDims"> Dimensions</label>
+          <label class="check"><input type="checkbox" id="mLabels"> Labels</label>
+          <label class="check"><input type="checkbox" id="mGrid"> Grid</label>
+        </div>
+      </div>
+      <p class="meta" id="mInfo"></p>
+    </div>
+    <textarea id="mArea" spellcheck="false" aria-label="Plan JSON"></textarea>
+    <div class="mrow" id="mFileRow"><label for="mFile">Or choose a file:</label><input type="file" id="mFile" accept=".json,application/json"></div>
+    <div class="merr" id="mErr" role="alert"></div>
+    <div class="mact">
+      <button class="sbtn" id="mCancel">Close</button>
+      <button class="sbtn" id="mCopy">Copy JSON</button>
+      <button class="sbtn primary" id="mOk">Save PNG</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

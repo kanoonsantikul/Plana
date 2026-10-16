@@ -1,0 +1,80 @@
+/* Colour and type tokens. Every colour in the app comes from here. */
+:root {
+  --paper: #eceef2;
+  --sheet: #fbfbfc;
+  --panel: #ffffff;
+  --ink: #15181d;
+  --ink-2: #555d6c;
+  --ink-3: #8a92a0;
+  --rule: #d5d9e0;
+  --floor: #e7e9ed;
+  --balcony: #f1f2f0;
+  --grid: rgba(40, 60, 120, .07);
+  --grid-major: rgba(40, 60, 120, .15);
+  --furn: #ffffff;
+  --furn-2: #f2f3f6;
+  --rug: #eceff7;
+  --accent: #2747c9;
+  --accent-soft: rgba(39, 71, 201, .12);
+  --on-accent: #ffffff;
+  --warn: #cc3626;
+  --warn-soft: rgba(204, 54, 38, .14);
+  --ok: #2c7a4b;
+  --shadow: rgba(16, 22, 34, .22);
+
+  --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e1115; --sheet: #151920; --panel: #181c24; --ink: #e3e6ec; --ink-2: #a0a8b6; --ink-3: #6b7382;
+    --rule: #2a303a; --floor: #1d222b; --balcony: #191d24; --grid: rgba(150, 170, 230, .06); --grid-major: rgba(150, 170, 230, .13);
+    --furn: #1b2029; --furn-2: #232935; --rug: #1f2539;
+    --accent: #8ba3ff; --accent-soft: rgba(139, 163, 255, .16); --on-accent: #0e1115;
+    --warn: #ff7666; --warn-soft: rgba(255, 118, 102, .2); --ok: #5fc48a; --shadow: rgba(0, 0, 0, .55);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0e1115; --sheet: #151920; --panel: #181c24; --ink: #e3e6ec; --ink-2: #a0a8b6; --ink-3: #6b7382;
+  --rule: #2a303a; --floor: #1d222b; --balcony: #191d24; --grid: rgba(150, 170, 230, .06); --grid-major: rgba(150, 170, 230, .13);
+  --furn: #1b2029; --furn-2: #232935; --rug: #1f2539;
+  --accent: #8ba3ff; --accent-soft: rgba(139, 163, 255, .16); --on-accent: #0e1115;
+  --warn: #ff7666; --warn-soft: rgba(255, 118, 102, .2); --ok: #5fc48a; --shadow: rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}
+
+/* Themes picked in the toolbar. They sit after the system blocks so a chosen theme wins either way. */
+html:root[data-skin="original"] {
+  --paper: #f2f2f2; --sheet: #ffffff; --panel: #ffffff; --ink: #111111; --ink-2: #4a4a4a; --ink-3: #8c8c8c;
+  --rule: #d9d9d9; --floor: #e4e4e4; --balcony: #f4f4f4; --grid: rgba(0, 0, 0, .035); --grid-major: rgba(0, 0, 0, .07);
+  --furn: #ffffff; --furn-2: #f6f6f6; --rug: #efefef;
+  --accent: #1f4fd1; --accent-soft: rgba(31, 79, 209, .10); --on-accent: #ffffff;
+  --warn: #cc3626; --warn-soft: rgba(204, 54, 38, .14); --ok: #2c7a4b; --shadow: rgba(0, 0, 0, .3);
+  color-scheme: light;
+}
+html:root[data-skin="drafting"] {
+  --paper: #eceef2; --sheet: #fbfbfc; --panel: #ffffff; --ink: #15181d; --ink-2: #555d6c; --ink-3: #8a92a0;
+  --rule: #d5d9e0; --floor: #e7e9ed; --balcony: #f1f2f0; --grid: rgba(40, 60, 120, .07); --grid-major: rgba(40, 60, 120, .15);
+  --furn: #ffffff; --furn-2: #f2f3f6; --rug: #eceff7;
+  --accent: #2747c9; --accent-soft: rgba(39, 71, 201, .12); --on-accent: #ffffff;
+  --warn: #cc3626; --warn-soft: rgba(204, 54, 38, .14); --ok: #2c7a4b; --shadow: rgba(16, 22, 34, .22);
+  color-scheme: light;
+}
+html:root[data-skin="blueprint"] {
+  --paper: #0a2650; --sheet: #0e376e; --panel: #0c2f60; --ink: #eaf2ff; --ink-2: #a8c2ea; --ink-3: #7896c6;
+  --rule: #285391; --floor: #124280; --balcony: #103c77; --grid: rgba(200, 225, 255, .08); --grid-major: rgba(200, 225, 255, .17);
+  --furn: #113d79; --furn-2: #17488a; --rug: #1a4e91;
+  --accent: #ffd166; --accent-soft: rgba(255, 209, 102, .18); --on-accent: #0a2650;
+  --warn: #ff8a7a; --warn-soft: rgba(255, 138, 122, .24); --ok: #7be0a6; --shadow: rgba(0, 4, 20, .45);
+  color-scheme: dark;
+}
+html:root[data-skin="dark"] {
+  --paper: #0e1115; --sheet: #151920; --panel: #181c24; --ink: #e3e6ec; --ink-2: #a0a8b6; --ink-3: #6b7382;
+  --rule: #2a303a; --floor: #1d222b; --balcony: #191d24; --grid: rgba(150, 170, 230, .06); --grid-major: rgba(150, 170, 230, .13);
+  --furn: #1b2029; --furn-2: #232935; --rug: #1f2539;
+  --accent: #8ba3ff; --accent-soft: rgba(139, 163, 255, .16); --on-accent: #0e1115;
+  --warn: #ff7666; --warn-soft: rgba(255, 118, 102, .2); --ok: #5fc48a; --shadow: rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}

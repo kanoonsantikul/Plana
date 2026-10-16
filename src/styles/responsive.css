@@ -1,0 +1,26 @@
+/* ---------- responsive ---------- */
+@media (max-width: 1080px) {
+  html, body { height: auto; }
+  .app {
+    height: auto;
+    grid-template-columns: minmax(0, 1fr) 290px;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "bar bar" "stage side" "lib lib";
+  }
+  .stage { height: 72vh; min-height: 420px; }
+  .side { max-height: 72vh; }
+  .cards { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
+  .lib-head { position: static; }
+}
+@media (max-width: 720px) {
+  .app { grid-template-columns: minmax(0, 1fr); grid-template-areas: "bar" "stage" "side" "lib"; }
+  .stage { height: 64vh; min-height: 360px; }
+  .side { max-height: none; }
+  .brand .sub { display: none; }
+  .hint { display: none; }
+  .tblock { min-width: 0; }
+  .tb-t { font-size: 12px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .sbtn, .card, .chip { transition: background-color .12s, border-color .12s, color .12s; }
+}
